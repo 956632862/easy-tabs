@@ -16,6 +16,7 @@ barHeight|tabBar的高度|number|6rpx|否
 barWidth| tabBar的宽 设置为auto的时候，会根据tab的宽度自动变化 |number｜string|50rpx|否
 flexBetween|                   是否开启均匀分布                   |boolean|false|否
 itemStyle|                  tabItem的内联样式                   |Object|{}|否
+customClass|                  最外层自定义class                   |string|null|否
 
 #### 触发事件事件
 
