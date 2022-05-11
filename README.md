@@ -1,13 +1,14 @@
 # easy-tabs
 
-简单易用**uniapp**的选项卡组件
+简单易用**uniapp**的选项卡组件,组件的唯一特色就是可以随意修改组件tab的样式，其他tab组件都没有这一点，不过在修改过程中需要注意`tabBar`的宽度获取的问题，外边框是获取不到的
 
 ## 组件参数说明
 
 参数|说明|类型|默认值|必传
 :-:|:--:|:-:|:-:|---
 list|tab的列表数据|array|[]|是
-current|当前选中的tabIndex，支持.sync修饰符|number|0|否
+v-model|同步选中的tab-index|number|0|是
+current|(<span style='color:red'>v1.1.1版本起废弃此属性，使用v-model进行index同步</span>)当前选中的tabIndex，支持.sync修饰符|number|0|否
 label|展示的字段名|string|label|否
 activeColor|选中状态颜色|string|#62C085|否
 inactiveColor|未选中状态颜色|string|#666666|否
@@ -20,6 +21,9 @@ customClass|                  最外层自定义class                   |string|
 
 #### 触发事件事件
 
-| 事件名 |      说明       |     传参     |
-| :----: | :-------------: | :----------: |
-| change | tab切换事件监听 | {index, tab} |
+触发事件自**v1.1.1**起使用以下用法，旧版本传出参数为` {index,tab}`
+
+| 事件名 |      说明       | 传参 |
+| :----: | :-------------: | :--: |
+| change | tab切换事件监听 | tab  |
+

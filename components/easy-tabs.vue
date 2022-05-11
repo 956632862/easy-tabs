@@ -26,7 +26,7 @@
 /**
  * @description 参数说明
  * @param [array] list  tab列表
- * @param [number] current 当前选中项 支持.sync
+ * @param [number] current 当前选中项 支持.sync (v1.1.1版本起废弃)
  * @param [string] label label字段名
  * @param [string] activeColor 选中颜色
  * @param [string] inactiveColor   默认颜色
@@ -36,18 +36,23 @@
  * @param [boolean] flexBetween 是否开启均匀分布
  * @param [object] itemStyle  tab-item的内联样式
  * @param [string] customClass 最外层自定义class
+ * @param [number] value 新版本使用v-model来进行index同步，废弃旧的方式
  */
 export default {
   name: "easy-tabs",
   props:{
+    value:{
+      type:Number,
+      default:0
+    },
     list:{
       type:Array,
       default:() => []
     },
-    current:{
-      type:Number,
-      default:0
-    },
+    // current:{
+    //   type:Number,
+    //   default:0
+    // },
     label:{
       type:String,
       default:'label'
@@ -96,9 +101,9 @@ export default {
     }
   },
   watch:{
-    current:{
+    value:{
       immediate: true,
-      handler:function (nVal) {
+      handler:function (nVal,oVla) {
         this.$nextTick(() => {
           this.active = nVal
           this.scrollTabBar()
@@ -132,6 +137,7 @@ export default {
   methods:{
     // 初始化
     async init(){
+      this.active = this.value
       this.privateBarWidth = this.barWidth
       this.parentInfo = await this.createSelectorQuery('#easy-tabs-scroll-container')
       this.getTabInfo()
@@ -176,8 +182,9 @@ export default {
       this.active = index
       this.scrollTabBar()
       const tab = this.list[index]
-      this.$emit('update:current',index)
-      this.$emit('change',{index,tab})
+      this.$emit('input',index)
+      // this.$emit('update:current',index)
+      this.$emit('change',tab)
     },
     createSelectorQuery(selector,all){
       return new Promise(resolve => {
