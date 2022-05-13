@@ -8,7 +8,7 @@
 :-:|:--:|:-:|:-:|---
 list|tab的列表数据|array|[]|是
 v-model|同步选中的tab-index|number|0|是
-current|(<span style='color:red'>v1.1.1版本起废弃此属性，使用v-model进行index同步</span>)当前选中的tabIndex，支持.sync修饰符|number|0|否
+current|***(v1.1.1版本起废弃此属性，使用v-model进行index同步)***当前选中的tabIndex，支持.sync修饰符|number|0|否
 label|展示的字段名|string|label|否
 activeColor|选中状态颜色|string|#62C085|否
 inactiveColor|未选中状态颜色|string|#666666|否
