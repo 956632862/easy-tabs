@@ -1,23 +1,29 @@
 <template>
 <view class="easy-tabs-container" :class="customClass ? customClass : ''">
   <view id="easy-tabs-scroll-container" >
-    <scroll-view scroll-x class="easy-tabs-scroll" :scrollLeft="scrollLeft" scroll-with-animation>
-      <view class="easy-tabs-box" :class="{'easy-tabs-box-flex-space-between': flexBetween}">
+    <scroll-view
+        scroll-x class="easy-tabs-scroll"
+        :scrollLeft="scrollLeft"
+        scroll-with-animation
+        :style="{ position: fixed ? 'fixed' : 'relative', zIndex: 9 }"
+    >
+      <view class="easy-tabs-box" id='_easy-tabs-box' :class="{'easy-tabs-box-flex-space-between': flexBetween}">
         <!--列表-->
         <view
+			      v-for="(item,index) in list"
             class="easy-tabs-item"
             :id="'easy-tab-item-'+index"
             :style="[tabItemStyle(index)]"
-            v-for="(item,index) in list"
             :key="index"
             @tap="handleSelectItem(index)"
         >
           {{item[label]}}
         </view>
         <!--滚动条-->
-        <view class="easy-tab-bar" :style="[tabBarStyle]"></view>
+        <view class="easy-tab-bar" :style="[tabBarStyle]"/>
       </view>
     </scroll-view>
+	  <view v-show="fixed" class='easy-placeholder' :style="{height}"></view>
   </view>
 </view>
 </template>
@@ -25,22 +31,29 @@
 <script>
 /**
  * @description 参数说明
- * @param [array] list  tab列表
- * @param [number] current 当前选中项 支持.sync (v1.1.1版本起废弃)
- * @param [string] label label字段名
- * @param [string] activeColor 选中颜色
- * @param [string] inactiveColor   默认颜色
- * @param [number] duration  过渡时间 (s)
- * @param [number] barHeight tabBar的高度
+ * @param [array]   list  tab列表
+ * @param [number]  current 当前选中项 支持.sync (v1.1.1版本起废弃)
+ * @param [string]  label label字段名
+ * @param [string]  activeColor 选中颜色
+ * @param [string]  inactiveColor   默认颜色
+ * @param [number]  duration  过渡时间 (s)
+ * @param [number]  barHeight tabBar的高度
  * @param [string | number] barWidth  tabBar的宽 设置为auto的时候，会根据tab的宽度自动变化
  * @param [boolean] flexBetween 是否开启均匀分布
- * @param [object] itemStyle  tab-item的内联样式
- * @param [string] customClass 最外层自定义class
- * @param [number] value 新版本使用v-model来进行index同步，废弃旧的方式
- */
+ * @param [object]  itemStyle  tab-item的内联样式
+ * @param [string]  customClass 最外层自定义class
+ * @param [number]  value 新版本使用v-model来进行index同步，废弃旧的方式
+ * @param [boolean] fixed 是否开启固定定位
+ * @param [string]  height tabItem的高度
+ * @param [string]  padding tabItem的内边距
+ **/
 export default {
   name: "easy-tabs",
   props:{
+    fixed:{
+      type:Boolean,
+      default:false
+    },
     value:{
       type:Number,
       default:0
@@ -49,10 +62,6 @@ export default {
       type:Array,
       default:() => []
     },
-    // current:{
-    //   type:Number,
-    //   default:0
-    // },
     label:{
       type:String,
       default:'label'
@@ -88,6 +97,14 @@ export default {
     customClass:{
       type:String,
       default:null
+    },
+    height:{
+      type:String,
+      default:'60rpx'
+    },
+    padding:{
+      type:String,
+      default:' 0 30rpx'
     }
   },
   data(){
@@ -124,7 +141,10 @@ export default {
     },
     tabItemStyle(){
       return (index) => {
-        const style = {}
+        const style = {
+          height:this.height,
+          padding:this.padding
+        }
         style.color = index === this.active ?  this.activeColor :  this.inactiveColor
         Object.assign(style,this.itemStyle)
         return style
@@ -140,6 +160,12 @@ export default {
       this.active = this.value
       this.privateBarWidth = this.barWidth
       this.parentInfo = await this.createSelectorQuery('#easy-tabs-scroll-container')
+	    const box =  await this.createSelectorQuery('#_easy-tabs-box')
+      this.$nextTick(() => {
+        this.height = box.height
+      })
+
+      console.log('height',this.height)
       this.getTabInfo()
     },
     // 获取所有节点的信息
@@ -217,7 +243,6 @@ export default {
     display: inline-block;
     text-align: center;
     transition-property: background-color, color;
-    padding: 15rpx 30rpx 20rpx 30rpx;
   }
   .easy-tab-bar{
     position: absolute;
