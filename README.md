@@ -8,7 +8,6 @@
 :-:|:--:|:-:|:-:|---
 list|tab的列表数据|array|[]|是
 v-model|同步选中的tab-index|number|0|是
-current|***(v1.1.1版本起废弃此属性，使用v-model进行index同步)***当前选中的tabIndex，支持.sync修饰符|number|0|否
 label|展示的字段名|string|label|否
 activeColor|选中状态颜色|string|#62C085|否
 inactiveColor|未选中状态颜色|string|#666666|否
@@ -18,6 +17,11 @@ barWidth| tabBar的宽 设置为auto的时候，会根据tab的宽度自动变�
 flexBetween|                   是否开启均匀分布                   |boolean|false|否
 itemStyle|                  tabItem的内联样式                   |Object|{}|否
 customClass|                  最外层自定义class                   |string|null|否
+fixed| 是否开启固定定位 |boolean|false|否
+height| tabItem的高度 |string|60rpx|否
+padding| tabItem的内边距 |string|0 30rpx|否
+
+
 
 #### 触发事件事件
 

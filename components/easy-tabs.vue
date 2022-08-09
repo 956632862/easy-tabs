@@ -1,31 +1,31 @@
 <template>
-<view class="easy-tabs-container" :class="customClass ? customClass : ''">
-  <view id="easy-tabs-scroll-container" >
-    <scroll-view
-        scroll-x class="easy-tabs-scroll"
-        :scrollLeft="scrollLeft"
-        scroll-with-animation
-        :style="{ position: fixed ? 'fixed' : 'relative', zIndex: 9 }"
-    >
-      <view class="easy-tabs-box" id='_easy-tabs-box' :class="{'easy-tabs-box-flex-space-between': flexBetween}">
-        <!--列表-->
-        <view
-			      v-for="(item,index) in list"
-            class="easy-tabs-item"
-            :id="'easy-tab-item-'+index"
-            :style="[tabItemStyle(index)]"
-            :key="index"
-            @tap="handleSelectItem(index)"
-        >
-          {{item[label]}}
+  <view class="easy-tabs-container" :class="customClass ? customClass : ''">
+    <view id="easy-tabs-scroll-container" >
+      <scroll-view
+          scroll-x class="easy-tabs-scroll"
+          :scrollLeft="scrollLeft"
+          scroll-with-animation
+          :style="{ position: fixed ? 'fixed' : 'relative', zIndex: 9 }"
+      >
+        <view class="easy-tabs-box" id='_easy-tabs-box' :class="{'easy-tabs-box-flex-space-between': flexBetween}">
+          <!--列表-->
+          <view
+              v-for="(item,index) in list"
+              class="easy-tabs-item"
+              :id="'easy-tab-item-'+index"
+              :style="[tabItemStyle(index)]"
+              :key="index"
+              @tap="handleSelectItem(index)"
+          >
+            {{item[label]}}
+          </view>
+          <!--滚动条-->
+          <view class="easy-tab-bar" :style="[tabBarStyle]"/>
         </view>
-        <!--滚动条-->
-        <view class="easy-tab-bar" :style="[tabBarStyle]"/>
-      </view>
-    </scroll-view>
-	  <view v-show="fixed" class='easy-placeholder' :style="{height}"></view>
+      </scroll-view>
+      <view v-show="fixed" class='easy-placeholder' :style="{height}"></view>
+    </view>
   </view>
-</view>
 </template>
 
 <script>
@@ -75,7 +75,7 @@ export default {
       default:"#666666",
     },
     duration:{
-      type: [String, Number],
+      type: [ String, Number ],
       default: 0.5
     },
     barHeight:{
@@ -83,7 +83,7 @@ export default {
       default:6
     },
     barWidth:{
-      type:[String,Number],
+      type:[ String,Number ],
       default:50
     },
     flexBetween:{
@@ -100,7 +100,7 @@ export default {
     },
     height:{
       type:String,
-      default:'60rpx'
+      default:'70rpx'
     },
     padding:{
       type:String,
@@ -160,17 +160,16 @@ export default {
       this.active = this.value
       this.privateBarWidth = this.barWidth
       this.parentInfo = await this.createSelectorQuery('#easy-tabs-scroll-container')
-	    const box =  await this.createSelectorQuery('#_easy-tabs-box')
-      this.$nextTick(() => {
-        this.height = box.height
-      })
-
-      console.log('height',this.height)
+      // const box =  await this.createSelectorQuery('#_easy-tabs-box')
+      // this.$nextTick(() => {
+      //    this.height = box.height
+      // })
       this.getTabInfo()
     },
     // 获取所有节点的信息
     getTabInfo(){
       const length = this.list.length
+      console.log(this.list.length,'length')
       let ids = ''
       for (let i = 0; i < length; i++) {
         ids += i !== length - 1 ? `#easy-tab-item-${i},` : `#easy-tab-item-${i}`
@@ -216,8 +215,8 @@ export default {
       return new Promise(resolve => {
         uni.createSelectorQuery().
         in(this)[all ? 'selectAll' : 'select'](selector).boundingClientRect(rect => {
-          if (all && Array.isArray(rect) && rect.length) {resolve(rect)}
-          if (!all && rect) {resolve(rect)}
+          if (all && Array.isArray(rect) && rect.length) { resolve(rect) }
+          if (!all && rect) { resolve(rect) }
         }).exec()
       })
     },
@@ -240,13 +239,15 @@ export default {
     justify-content: space-between;
   }
   .easy-tabs-item{
-    display: inline-block;
+    //display: inline-block;
     text-align: center;
     transition-property: background-color, color;
+    display: inline-flex;
+    align-items: center;
   }
   .easy-tab-bar{
     position: absolute;
-    bottom: 0;
+    bottom: -1px;
   }
 }
 
