@@ -14,6 +14,8 @@ inactiveColor|未选中状态颜色|string|#666666|否
 duration|滚动动画时间|number|0.5s|否
 barHeight|tabBar的高度|number|6rpx|否
 barWidth| tabBar的宽 设置为auto的时候，会根据tab的宽度自动变化 |number｜string|50rpx|否
+barRadius| 设置tabbar的圆角值 |String|0rpx|否
+barColor| 设置tabbar的颜色，不设置则跟文本颜色同步 |String|Null|否
 flexBetween|                   是否开启均匀分布                   |boolean|false|否
 itemStyle|                  tabItem的内联样式                   |Object|{}|否
 customClass|                  最外层自定义class                   |string|null|否
