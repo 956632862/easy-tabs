@@ -21,6 +21,7 @@
               v-for="(item,index) in list"
               :id="'easy-tab-item-'+index"
               :key="index"
+              :class="index === active ? 'is-active' : 'not-active'"
               :style="[tabItemStyle(index)]"
               class="easy-tabs-item"
               @tap="handleSelectItem(index)"
@@ -107,6 +108,7 @@ export default {
           height:this.height,
           padding:this.padding
         }
+
         style.color = index === this.active ?  this.activeColor :  this.inactiveColor
         Object.assign(style,this.itemStyle)
         return style
@@ -193,6 +195,7 @@ export default {
   }
   .easy-tabs-box{
     position: relative;
+    .is-active{}
   }
   .easy-tabs-box-flex-space-between{
     display: flex;
